@@ -1,17 +1,9 @@
-from ultralytics import YOLO
 import cv2
-import util
-from sort.sort import *
-from util import get_car, read_license_plate, write_csv
-import string
 import easyocr
-
-
-
-
+from ultralytics import YOLO
 
 # Initialize the OCR reader
-reader = easyocr.Reader(['en'], gpu=False)
+reader = easyocr.Reader(['en'], gpu=True)
 
 # Mapping dictionaries for character conversion
 dict_char_to_int = {'O': '0',
@@ -32,7 +24,7 @@ dict_int_to_char = {'0': 'O',
 
 # load models
 coco_model = YOLO('yolov8n.pt')
-license_plate_detector = YOLO('./best.pt')
+license_plate_detector = YOLO('models/yolo/best.pt')
 
 # detect license plate
 
