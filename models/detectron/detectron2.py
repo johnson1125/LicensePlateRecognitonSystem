@@ -6,7 +6,7 @@ import cv2
 # Load config from a config file
 cfg = get_cfg()
 cfg.merge_from_file(model_zoo.get_config_file('COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml'))
-cfg.MODEL.WEIGHTS = './model_final.pth'
+cfg.MODEL.WEIGHTS = './cibai.pth'
 cfg.MODEL.DEVICE = 'cpu'
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = 6
 cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
@@ -15,7 +15,7 @@ cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
 predictor = DefaultPredictor(cfg)
 
 # Load image
-image = cv2.imread("./40815379375_fa89b5a0c7_b.jpg")
+image = cv2.imread("./photo6.jpg")
 
 # Perform prediction
 outputs = predictor(image)
@@ -37,6 +37,10 @@ for j, bbox in enumerate(bboxes):
         x1, y1, x2, y2 = [int(i) for i in bbox]
 
         cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 5)
+
+        # Add prediction score as text
+        text = f"Class {pred} ({score:.2f})"
+        cv2.putText(image, text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
 cv2.imshow('image', image)
 cv2.waitKey(0)
