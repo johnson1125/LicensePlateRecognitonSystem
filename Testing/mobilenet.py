@@ -17,7 +17,7 @@ def run_inference(model, input_tensor):
 threshold = 0.20
 
 # Example usage
-model_path = 'new_model/content/export/saved_model'
+model_path = '../new_model/content/export/saved_model'
 model = load_model(model_path)
 imgPath = 'photo9.jpg'
 input_tensor = prepare_input(imgPath)

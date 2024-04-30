@@ -4,11 +4,8 @@ from ultralytics import YOLO
 from utils.readLicensePlate import readLicensePlate
 from utils.utils import visualize
 
-# Initialize the OCR reader
-reader = easyocr.Reader(['en'], gpu=True)
 # load models
 license_plate_detector = YOLO('models/yolo/best.pt')
-
 
 # detect license plate
 def yoloDetectPhoto(path):
