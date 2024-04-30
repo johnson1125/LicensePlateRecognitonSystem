@@ -7,16 +7,32 @@ from models.yolo.yoloCamera import yoloRealTimeDetect
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Camera import ssdRealTimeDetect
 
+
+def openNewTab(windowTitle,imgPath):
+    # Create a new window
+    new_window = tk.Toplevel()
+    new_window.title(windowTitle)
+
+    # Load the image (replace 'path/to/your/image.jpg' with the actual path)
+    img = Image.open(imgPath)
+    img = img.resize((640, 640), Image.ANTIALIAS)  # Resize the image if needed
+    photo = ImageTk.PhotoImage(img)
+
+    # Create a label to display the image
+    image_label = tk.Label(new_window, image=photo)
+    image_label.image = photo  # Keep a reference to prevent garbage collection
+    image_label.pack()
+
+
 def yoloPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
     path = tk.filedialog.askopenfilename(filetypes=fileTypes)
 
     # if file is selected
     if len(path):
+        windowTitle = "Yolo Photo Detection"
         detectionResult = yoloDetectPhoto(path)
-        img = Image.open(detectionResult[1])
-        img = img.resize((640, 640))
-        pic = ImageTk.PhotoImage(img)
+        openNewTab(windowTitle,detectionResult[1])
 
         # re-sizing the app window in order to fit picture
         # and buttom
@@ -35,11 +51,9 @@ def ssdPhotoDetection():
 
     # if file is selected
     if len(path):
+        windowTitle = "SSD Photo Detection"
         detectionResult = ssdDetectPhoto(path)
-        img = Image.open(detectionResult[1])
-        img = img.resize((640, 640))
-        pic = ImageTk.PhotoImage(img)
-
+        openNewTab(windowTitle,detectionResult[1])
         # re-sizing the app window in order to fit picture
         # and buttom
         app.geometry("1000x800")
