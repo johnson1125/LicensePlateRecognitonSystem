@@ -29,7 +29,7 @@ license_plate_detector = YOLO('models/yolo/best.pt')
 # detect license plate
 
 # load image
-img = cv2.imread('./photo10.jpg')
+img = cv2.imread('resources/image/test/photo10.jpg')
 
 #detect car
 detections = coco_model(img)[0]

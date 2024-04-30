@@ -66,7 +66,7 @@ if __name__ == "__main__":
     app.geometry("1000x800")
 
     # adding background image
-    img = ImageTk.PhotoImage(file='photo1.jpg')
+    img = ImageTk.PhotoImage(file='resources/image/test/photo1.jpg')
     imgLabel = Label(app, image=img)
     imgLabel.place(x=0, y=0)
 
