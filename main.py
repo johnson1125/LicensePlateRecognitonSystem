@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import Label
 from tkinter import filedialog
 from PIL import Image, ImageTk
@@ -100,41 +101,59 @@ def detectron2RealTimeDetection():
 if __name__ == "__main__":
     # defining tkinter object
     app = tk.Tk()
-
-    # setting title and basic size to our App
-    app.title("GeeksForGeeks Image Viewer")
+    app.title("Car Plate Number Recognition System")
     app.geometry("1000x800")
 
-    # adding background color to our upload button
+    # Adding background color to labels and buttons
     app.option_add("*Label*Background", "white")
     app.option_add("*Button*Background", "lightgreen")
 
-    label = tk.Label(app)
-    label.pack(pady=10)
+    # Create a notebook (tabbed interface)
+    notebook = ttk.Notebook(app)
 
-    # defining yolo detect Image buttom
-    yoloDetectImageButton = tk.Button(app, text="Detect Image (Yolo)", command=yoloPhotoDetection)
-    yoloDetectImageButton.place(x=50, y=200)
+    # Create frames for each model
+    yolo_frame = ttk.Frame(notebook)
+    ssd_frame = ttk.Frame(notebook)
+    detectron2_frame = ttk.Frame(notebook)
 
-    # defining yolo real time camera detection buttom
-    yoloDetectImageButton = tk.Button(app, text="Detect Image (Yolo)", command=yoloRealTimeDetection)
-    yoloDetectImageButton.place(x=250, y=200)
+    # Add frames to the notebook
+    notebook.add(yolo_frame, text="YOLO")
+    notebook.add(ssd_frame, text="SSD")
+    notebook.add(detectron2_frame, text="Detectron2")
 
-    # defining ssd detect Image buttom
-    ssdDetectImageButton = tk.Button(app, text="Detect Image (SSD)", command=ssdPhotoDetection)
-    ssdDetectImageButton.place(x=50, y=400)
+    # Customize tab appearance (increase font size and padding)
+    style = ttk.Style()
+    style.configure("TNotebook.Tab", font=("Helvetica", 14), padding=[20, 10])
 
-    # defining ssd real time camera detection buttom
-    ssdDetectImageButton = tk.Button(app, text="Detect Image (SSD)", command=ssdRealTimeDetection)
-    ssdDetectImageButton.place(x=250, y=400)
+    # Create buttons for each model within their respective frames
+    yolo_button1 = tk.Button(yolo_frame, text="Detect Image (YOLO)", command=yoloPhotoDetection, font=("Helvetica", 16),
+                             width=25, height=2)  # Adjust width, height, and font size as needed
+    yolo_button2 = tk.Button(yolo_frame, text="Live Detect (YOLO)", command=yoloRealTimeDetection,
+                             font=("Helvetica", 16), width=25,
+                             height=2)  # Adjust width, height, and font size as needed
 
-    # defining ssd detect Image buttom
-    detectron2ImageButton = tk.Button(app, text="Detect Image (Detectron2)", command=detectron2PhotoDetection)
-    detectron2ImageButton.place(x=50, y=600)
+    ssd_button1 = tk.Button(ssd_frame, text="Detect Image (SSD)", command=ssdPhotoDetection, font=("Helvetica", 16),
+                            width=25, height=2)
+    ssd_button2 = tk.Button(ssd_frame, text="Live Detect (SSD)", command=ssdRealTimeDetection, font=("Helvetica", 16),
+                            width=25, height=2)
 
-    # defining ssd real time camera detection buttom
-    detectron2ImageButton = tk.Button(app, text="Detect Image (Detectron2)", command=detectron2RealTimeDetection)
-    detectron2ImageButton.place(x=250, y=600)
+    detectron2_button1 = tk.Button(detectron2_frame, text="Detect Image (Detectron2)", command=detectron2PhotoDetection,
+                                   font=("Helvetica", 16), width=25, height=2)
+    detectron2_button2 = tk.Button(detectron2_frame, text="Live Detect (Detectron2)",
+                                   command=detectron2RealTimeDetection, font=("Helvetica", 16), width=25, height=2)
+
+    # Pack the buttons with customized positions
+    yolo_button1.pack(side="top", pady=50)
+    yolo_button2.pack(side="top", pady=10)
+
+    ssd_button1.pack(side="top", pady=50)
+    ssd_button2.pack(side="top", pady=10)
+
+    detectron2_button1.pack(side="top", pady=50)
+    detectron2_button2.pack(side="top", pady=10)
+
+    # Pack the notebook
+    notebook.pack(fill="both", expand=True)
 
     app.mainloop()
 
