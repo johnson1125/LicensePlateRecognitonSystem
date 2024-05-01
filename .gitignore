@@ -8,3 +8,6 @@
 __pycache__/util.cpython-310.pyc
 models/detectron/lastest_detectron2.pth
 *.pyc
+resources/image/output/sdd_MobileNetV2_FpnLite/detection.jpg
+resources/image/output/detectron2/detection.jpg
+resources/image/output/yolo/detection.jpg
