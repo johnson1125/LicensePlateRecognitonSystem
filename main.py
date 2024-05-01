@@ -6,6 +6,8 @@ from models.yolo.yoloPhoto import yoloDetectPhoto
 from models.yolo.yoloCamera import yoloRealTimeDetect
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Camera import ssdRealTimeDetect
+from models.detectron.detectron2Photo import detectron2DetectPhoto
+from models.detectron.detectron2Camera import detectron2RealTimeDetect
 
 
 def openNewTab(windowTitle,imgPath):
@@ -65,11 +67,35 @@ def ssdPhotoDetection():
     else:
         print("No file is chosen !! Please choose a file.")
 
+
+def detectron2PhotoDetection():
+    fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
+    path = tk.filedialog.askopenfilename(filetypes=fileTypes)
+
+    # if file is selected
+    if len(path):
+        windowTitle = "Detectron2 Photo Detection"
+        detectionResult = detectron2DetectPhoto(path)
+        openNewTab(windowTitle,detectionResult[1])
+        # re-sizing the app window in order to fit picture
+        # and buttom
+        app.geometry("1000x800")
+        label.config(image=pic)
+        label.image = pic
+        print(detectionResult[0])
+
+    # if no file is selected, then we are displaying below message
+    else:
+        print("No file is chosen !! Please choose a file.")
+
 def yoloRealTimeDetection():
     yoloRealTimeDetect()
 
 def ssdRealTimeDetection():
     ssdRealTimeDetect()
+
+def detectron2RealTimeDetection():
+    detectron2RealTimeDetect()
 
 if __name__ == "__main__":
     # defining tkinter object
@@ -78,11 +104,6 @@ if __name__ == "__main__":
     # setting title and basic size to our App
     app.title("GeeksForGeeks Image Viewer")
     app.geometry("1000x800")
-
-    # adding background image
-    img = ImageTk.PhotoImage(file='resources/image/test/photo1.jpg')
-    imgLabel = Label(app, image=img)
-    imgLabel.place(x=0, y=0)
 
     # adding background color to our upload button
     app.option_add("*Label*Background", "white")
@@ -93,20 +114,27 @@ if __name__ == "__main__":
 
     # defining yolo detect Image buttom
     yoloDetectImageButton = tk.Button(app, text="Detect Image (Yolo)", command=yoloPhotoDetection)
-    yoloDetectImageButton.place(x=50, y=700)
+    yoloDetectImageButton.place(x=50, y=200)
 
     # defining yolo real time camera detection buttom
     yoloDetectImageButton = tk.Button(app, text="Detect Image (Yolo)", command=yoloRealTimeDetection)
-    yoloDetectImageButton.place(x=250, y=700)
+    yoloDetectImageButton.place(x=250, y=200)
 
     # defining ssd detect Image buttom
     ssdDetectImageButton = tk.Button(app, text="Detect Image (SSD)", command=ssdPhotoDetection)
-    ssdDetectImageButton.place(x=450, y=700)
-
+    ssdDetectImageButton.place(x=50, y=400)
 
     # defining ssd real time camera detection buttom
     ssdDetectImageButton = tk.Button(app, text="Detect Image (SSD)", command=ssdRealTimeDetection)
-    ssdDetectImageButton.place(x=650, y=700)
+    ssdDetectImageButton.place(x=250, y=400)
+
+    # defining ssd detect Image buttom
+    detectron2ImageButton = tk.Button(app, text="Detect Image (Detectron2)", command=detectron2PhotoDetection)
+    detectron2ImageButton.place(x=50, y=600)
+
+    # defining ssd real time camera detection buttom
+    detectron2ImageButton = tk.Button(app, text="Detect Image (Detectron2)", command=detectron2RealTimeDetection)
+    detectron2ImageButton.place(x=250, y=600)
 
     app.mainloop()
 

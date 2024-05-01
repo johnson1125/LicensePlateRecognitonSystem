@@ -3,8 +3,8 @@ import copy
 import json
 import os
 
-from detectron2.data import DatasetCatalog, MetadataCatalog
-from detectron2.utils.file_io import PathManager
+from models.detectron.detectron2.data import DatasetCatalog, MetadataCatalog
+from models.detectron.detectron2.utils.file_io import PathManager
 
 from .coco import load_coco_json, load_sem_seg
 
