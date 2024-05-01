@@ -1,6 +1,5 @@
 import easyocr
 import cv2
-from paddleocr import PaddleOCR
 
 reader = easyocr.Reader(['en'], gpu=True)
 

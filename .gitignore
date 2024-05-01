@@ -6,3 +6,4 @@
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
 __pycache__/util.cpython-310.pyc
+models/detectron/lastest_detectron2.pth

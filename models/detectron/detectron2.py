@@ -6,7 +6,7 @@ import cv2
 # Load config from a config file
 cfg = get_cfg()
 cfg.merge_from_file(model_zoo.get_config_file('COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml'))
-cfg.MODEL.WEIGHTS = './cibai.pth'
+cfg.MODEL.WEIGHTS = 'models/detectron/lastest_detectron2.pth'
 cfg.MODEL.DEVICE = 'cpu'
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = 6
 cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128

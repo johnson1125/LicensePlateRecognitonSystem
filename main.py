@@ -37,8 +37,8 @@ def yoloPhotoDetection():
         # re-sizing the app window in order to fit picture
         # and buttom
         app.geometry("1000x800")
-        label.config(image=pic)
-        label.image = pic
+        label.config(image=img)
+        label.image = img
         print(detectionResult[0])
 
     # if no file is selected, then we are displaying below message
@@ -57,8 +57,8 @@ def ssdPhotoDetection():
         # re-sizing the app window in order to fit picture
         # and buttom
         app.geometry("1000x800")
-        label.config(image=pic)
-        label.image = pic
+        label.config(image=img)
+        label.image = img
         print(detectionResult[0])
 
     # if no file is selected, then we are displaying below message
