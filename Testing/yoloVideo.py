@@ -5,7 +5,7 @@ import util
 from sort.sort import *
 from util import get_car, read_license_plate, write_csv
 
-util.license_complies_format()
+#util.license_complies_format()
 results = {}
 
 mot_tracker = Sort()
@@ -15,8 +15,10 @@ coco_model = YOLO('yolov8n.pt')
 license_plate_detector = YOLO('../models/yolo/best.pt')
 
 # load video
-cap = cv2.VideoCapture('./video.mp4')
-
+cap = cv2.VideoCapture(0)
+    #cv2.VideoCapture('./video.mp4'))
+cap.set(3, 640)
+cap.set(4, 480)
 vehicles = [2, 3, 5, 7]
 
 # read frames
@@ -30,13 +32,14 @@ while ret:
         # detect vehicles
         detections = coco_model(frame)[0]
         detections_ = []
+
         for detection in detections.boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = detection
             if int(class_id) in vehicles:
                 detections_.append([x1, y1, x2, y2, score])
 
         # track vehicles
-        track_ids = mot_tracker.update(np.asarray(detections_))
+        track_ids = mot_tracker.update(np.asarray(detections_bboxes))
 
         # detect license plates
         license_plates = license_plate_detector(frame)[0]
@@ -64,6 +67,7 @@ while ret:
                                                                     'text': license_plate_text,
                                                                     'bbox_score': score,
                                                                     'text_score': license_plate_text_score}}
-
+cap.release()
+cv2.destroyAllWindows()
 # write results
 write_csv(results, 'test.csv')

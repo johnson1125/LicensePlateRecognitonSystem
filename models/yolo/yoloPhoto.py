@@ -1,5 +1,4 @@
 import cv2
-import easyocr
 from ultralytics import YOLO
 from utils.readLicensePlate import readLicensePlate
 from utils.utils import visualize
