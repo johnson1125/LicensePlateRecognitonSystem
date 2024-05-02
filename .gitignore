@@ -6,7 +6,7 @@
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
 __pycache__/util.cpython-310.pyc
-models/detectron/lastest_detectron2.pth
+models/faster_rcnn/fasterRcnn.pth
 *.pyc
 resources/image/output/sdd_MobileNetV2_FpnLite/detection.jpg
 resources/image/output/detectron2/detection.jpg
