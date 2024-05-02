@@ -4,9 +4,9 @@ from tkinter import Label
 from tkinter import filedialog
 from PIL import Image, ImageTk
 from models.yolo.yoloPhoto import yoloDetectPhoto
-from models.yolo.yoloCamera import yoloRealTimeDetect
+from models.yolo.yoloRealTimeDetection import yoloRealTimeModelDetect
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
-from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Camera import ssdRealTimeDetect
+from models.sdd_MobileNetV2_FpnLite.ssdMobileNetV2RealTimeDetection import ssdRealTimeModelDetect
 from models.detectron.detectron2Photo import detectron2DetectPhoto
 from models.detectron.detectron2Camera import detectron2RealTimeDetect
 
@@ -90,10 +90,10 @@ def detectron2PhotoDetection():
         print("No file is chosen !! Please choose a file.")
 
 def yoloRealTimeDetection():
-    yoloRealTimeDetect()
+    yoloRealTimeModelDetect()
 
 def ssdRealTimeDetection():
-    ssdRealTimeDetect()
+    ssdRealTimeModelDetect()
 
 def detectron2RealTimeDetection():
     detectron2RealTimeDetect()

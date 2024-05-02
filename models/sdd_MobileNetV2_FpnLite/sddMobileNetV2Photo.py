@@ -1,10 +1,5 @@
 import numpy as np
 import cv2
-import os
-import sys
-import glob
-import random
-import importlib.util
 from tensorflow.lite.python.interpreter import Interpreter
 from utils.readLicensePlate import readLicensePlate
 from utils.utils import visualize
