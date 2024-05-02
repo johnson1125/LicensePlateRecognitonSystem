@@ -26,7 +26,7 @@ input_mean = 127.5
 input_std = 127.5
 
 def ssdRealTimeDetect():
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     cap.set(3, 640)
     cap.set(4, 480)
 
