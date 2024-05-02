@@ -6,12 +6,12 @@ from utils.utils import visualize
 import cv2
 
 
-def detectron2DetectPhoto(path):
+def fasterRcnnDetectPhoto(path):
 
     # Load config from a config file
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file('COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml'))
-    cfg.MODEL.WEIGHTS = 'models/detectron/lastest_detectron2.pth'
+    cfg.MODEL.WEIGHTS = 'models/detectron/fasterRcnn.pth'
     cfg.MODEL.DEVICE = 'cpu'
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
@@ -44,8 +44,8 @@ def detectron2DetectPhoto(path):
 
             visualize(image, score, license_plate, x1, y1, x2, y2)
 
-            cv2.imwrite('resources/image/output/detectron2/detection.jpg', image)
-            return [license_plate, "resources/image/output/detectron2/detection.jpg"]
+            cv2.imwrite('resources/image/output/fasterRcnn/detection.jpg', image)
+            return [license_plate, "resources/image/output/fasterRcnn/detection.jpg"]
 
 
 

@@ -7,8 +7,8 @@ from models.yolo.yoloPhoto import yoloDetectPhoto
 from models.yolo.yoloCamera import yoloRealTimeDetect
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Camera import ssdRealTimeDetect
-from models.detectron.detectron2Photo import detectron2DetectPhoto
-from models.detectron.detectron2Camera import detectron2RealTimeDetect
+from models.detectron.fasterRcnnPhoto import fasterRcnnDetectPhoto
+from models.detectron.fasterRcnnCamera import fasterRcnnRealTimeDetect
 
 
 def openNewTab(windowTitle,imgPath):
@@ -33,16 +33,19 @@ def yoloPhotoDetection():
 
     # if file is selected
     if len(path):
-        windowTitle = "Yolo Photo Detection"
         detectionResult = yoloDetectPhoto(path)
-        openNewTab(windowTitle,detectionResult[1])
+        img = Image.open(detectionResult[1])
+        img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
+        photo = ImageTk.PhotoImage(img)
 
-        # re-sizing the app window in order to fit picture
-        # and buttom
-        app.geometry("1000x800")
-        label.config(image=img)
-        label.image = img
-        print(detectionResult[0])
+        # Create a label to display the image
+        image_label = tk.Label(app, image=photo)
+        image_label.image = photo  # Keep a reference to prevent garbage collection
+        image_label.place(relx=0.5, rely=0.55, anchor=tk.CENTER)  # Position the image label
+
+        # Create a label to display the detection text
+        detection_text = tk.Label(app, text=detectionResult[0], font=("Helvetica", 16))
+        detection_text.place(relx=0.5, rely=0.88, anchor=tk.CENTER)  # Position the detection text label
 
     # if no file is selected, then we are displaying below message
     else:
@@ -54,36 +57,45 @@ def ssdPhotoDetection():
 
     # if file is selected
     if len(path):
-        windowTitle = "SSD Photo Detection"
         detectionResult = ssdDetectPhoto(path)
-        openNewTab(windowTitle,detectionResult[1])
-        # re-sizing the app window in order to fit picture
-        # and buttom
-        app.geometry("1000x800")
-        label.config(image=img)
-        label.image = img
-        print(detectionResult[0])
+        img = Image.open(detectionResult[1])
+        img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
+        photo = ImageTk.PhotoImage(img)
+
+        # Create a label to display the image
+        image_label = tk.Label(app, image=photo)
+        image_label.image = photo  # Keep a reference to prevent garbage collection
+        image_label.place(relx=0.5, rely=0.55, anchor=tk.CENTER)  # Position the image label
+
+        # Create a label to display the detection text
+        detection_text = tk.Label(app, text=detectionResult[0], font=("Helvetica", 16))
+        detection_text.place(relx=0.5, rely=0.88, anchor=tk.CENTER)  # Position the detection text label
+
 
     # if no file is selected, then we are displaying below message
     else:
         print("No file is chosen !! Please choose a file.")
 
 
-def detectron2PhotoDetection():
+def fasterRcnnPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
     path = tk.filedialog.askopenfilename(filetypes=fileTypes)
 
     # if file is selected
     if len(path):
-        windowTitle = "Detectron2 Photo Detection"
-        detectionResult = detectron2DetectPhoto(path)
-        openNewTab(windowTitle,detectionResult[1])
-        # re-sizing the app window in order to fit picture
-        # and buttom
-        app.geometry("1000x800")
-        label.config(image=pic)
-        label.image = pic
-        print(detectionResult[0])
+        detectionResult = fasterRcnnDetectPhoto(path)
+        img = Image.open(detectionResult[1])
+        img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
+        photo = ImageTk.PhotoImage(img)
+
+        # Create a label to display the image
+        image_label = tk.Label(app, image=photo)
+        image_label.image = photo  # Keep a reference to prevent garbage collection
+        image_label.place(relx=0.5, rely=0.55, anchor=tk.CENTER)  # Position the image label
+
+        # Create a label to display the detection text
+        detection_text = tk.Label(app, text=detectionResult[0], font=("Helvetica", 16))
+        detection_text.place(relx=0.5, rely=0.88, anchor=tk.CENTER)  # Position the detection text label
 
     # if no file is selected, then we are displaying below message
     else:
@@ -95,8 +107,8 @@ def yoloRealTimeDetection():
 def ssdRealTimeDetection():
     ssdRealTimeDetect()
 
-def detectron2RealTimeDetection():
-    detectron2RealTimeDetect()
+def fasterRcnnRealTimeDetection():
+    fasterRcnnRealTimeDetect()
 
 if __name__ == "__main__":
     # defining tkinter object
@@ -114,12 +126,12 @@ if __name__ == "__main__":
     # Create frames for each model
     yolo_frame = ttk.Frame(notebook)
     ssd_frame = ttk.Frame(notebook)
-    detectron2_frame = ttk.Frame(notebook)
+    fasterRcnn_frame = ttk.Frame(notebook)
 
     # Add frames to the notebook
     notebook.add(yolo_frame, text="YOLO")
     notebook.add(ssd_frame, text="SSD")
-    notebook.add(detectron2_frame, text="Detectron2")
+    notebook.add(fasterRcnn_frame, text="Faster Rcnn")
 
     # Customize tab appearance (increase font size and padding)
     style = ttk.Style()
@@ -137,20 +149,28 @@ if __name__ == "__main__":
     ssd_button2 = tk.Button(ssd_frame, text="Live Detect (SSD)", command=ssdRealTimeDetection, font=("Helvetica", 16),
                             width=25, height=2)
 
-    detectron2_button1 = tk.Button(detectron2_frame, text="Detect Image (Detectron2)", command=detectron2PhotoDetection,
+    fasterRcnn_button1 = tk.Button(fasterRcnn_frame, text="Detect Image (Detectron2)", command=fasterRcnnPhotoDetection,
                                    font=("Helvetica", 16), width=25, height=2)
-    detectron2_button2 = tk.Button(detectron2_frame, text="Live Detect (Detectron2)",
-                                   command=detectron2RealTimeDetection, font=("Helvetica", 16), width=25, height=2)
+    fasterRcnn_button2 = tk.Button(fasterRcnn_frame, text="Live Detect (Detectron2)",
+                                   command=fasterRcnnRealTimeDetection, font=("Helvetica", 16), width=25, height=2)
+
+    # Create a label to display the image
+    image_label = tk.Label(app)
+    image_label.place(x=20, y=20)  # Position the image label
+
+    # Create a label to display the detection text
+    detection_text = tk.Label(app, font=("Helvetica", 16))
+    detection_text.place(x=20, y=660)  # Position the detection text label
 
     # Pack the buttons with customized positions
-    yolo_button1.pack(side="top", pady=50)
-    yolo_button2.pack(side="top", pady=10)
+    yolo_button1.place(x=150, y=50)
+    yolo_button2.place(x=500, y=50)
 
-    ssd_button1.pack(side="top", pady=50)
-    ssd_button2.pack(side="top", pady=10)
+    ssd_button1.place(x=150, y=50)
+    ssd_button2.place(x=500, y=50)
 
-    detectron2_button1.pack(side="top", pady=50)
-    detectron2_button2.pack(side="top", pady=10)
+    fasterRcnn_button1.place(x=150, y=50)
+    fasterRcnn_button2.place(x=500, y=50)
 
     # Pack the notebook
     notebook.pack(fill="both", expand=True)

@@ -7,7 +7,7 @@ from utils.utils import visualize
 # load models
 license_plate_detector = YOLO('models/yolo/best.pt')
 def yoloRealTimeDetect() :
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(3, 640)
     cap.set(4, 480)
     threshold = 0.8

@@ -4,21 +4,22 @@ from models.detectron.detectron2.engine import DefaultPredictor
 from models.detectron.detectron2 import model_zoo
 from utils.readLicensePlate import readLicensePlate
 from utils.utils import visualize
+from PIL import Image, ImageTk
 
-def detectron2RealTimeDetect():
-    # Load config from a config file
-    cfg = get_cfg()
-    cfg.merge_from_file(model_zoo.get_config_file('COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml'))
-    cfg.MODEL.WEIGHTS = 'models/detectron/lastest_detectron2.pth'
-    cfg.MODEL.DEVICE = 'cpu'
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2
-    cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
+# Load config from a config file
+cfg = get_cfg()
+cfg.merge_from_file(model_zoo.get_config_file('COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml'))
+cfg.MODEL.WEIGHTS = 'models/detectron/fasterRcnn.pth'
+cfg.MODEL.DEVICE = 'cpu'
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2
+cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
 
+def fasterRcnnRealTimeDetect():
     # Create predictor instance
     predictor = DefaultPredictor(cfg)
 
     # Initialize webcam
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(3, 640)
     cap.set(4, 480)
 
@@ -47,6 +48,7 @@ def detectron2RealTimeDetect():
                 visualize(img, score, license_plate, x1, y1, x2, y2)
 
         cv2.imshow('Webcam', img)
+
         if cv2.waitKey(1) == ord('q'):
             break
 
