@@ -6,24 +6,10 @@ from PIL import Image, ImageTk
 from models.yolo.yoloPhoto import yoloDetectPhoto
 from models.yolo.yoloRealTimeDetection import yoloRealTimeModelDetect
 from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
+from models.sdd_MobileNetV2_FpnLite.ssdMobileNetV2RealTimeDetection import ssdRealTimeModelDetect
 from models.faster_rcnn.fasterRcnnPhoto import fasterRcnnDetectPhoto
 from models.faster_rcnn.fasterRcnnCamera import fasterRcnnRealTimeDetect
-from models.sdd_MobileNetV2_FpnLite.ssdMobileNetV2RealTimeDetection import ssdRealTimeModelDetect
-
-
-def openNewTab(windowTitle,imgPath):
-    # Create a new window
-    new_window = tk.Toplevel()
-    new_window.title(windowTitle)
-
-    # Load the image (replace 'path/to/your/image.jpg' with the actual path)
-    img = Image.open(imgPath)
-    img = img.resize((640, 640), Image.ANTIALIAS)  # Resize the image if needed
-    photo = ImageTk.PhotoImage(img)
-
-def display_error_message(frame, message):
-    error_label = tk.Label(frame, text=message, font=("Helvetica", 16), fg="red")
-    error_label.place(relx=0.5, rely=0.88, anchor=tk.CENTER)
+from datetime import datetime
 
 def yoloPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
@@ -33,7 +19,8 @@ def yoloPhotoDetection():
     if len(path):
         detectionResult = yoloDetectPhoto(path)
         if detectionResult is None:
-            display_error_message(ssd_frame, "No car plate detected...")
+            image_label_yolo.config(image=empty_photo)
+            detection_text_yolo.config(text= "No car plate detected...", foreground="red" )
             return
         img = Image.open(detectionResult[1])
         img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
@@ -58,7 +45,8 @@ def ssdPhotoDetection():
     if len(path):
         detectionResult = ssdDetectPhoto(path)
         if detectionResult is None:
-            display_error_message(ssd_frame, "No car plate detected...")
+            image_label_ssd.config(image=empty_photo)
+            detection_text_ssd.config(text= "No car plate detected...", foreground="red" )
             return
         img = Image.open(detectionResult[1])
         img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
@@ -76,7 +64,6 @@ def ssdPhotoDetection():
     else:
         print("No file is chosen !! Please choose a file.")
 
-
 def fasterRcnnPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
     path = tk.filedialog.askopenfilename(filetypes=fileTypes)
@@ -85,7 +72,8 @@ def fasterRcnnPhotoDetection():
     if len(path):
         detectionResult = fasterRcnnDetectPhoto(path)
         if detectionResult is None:
-            display_error_message(fasterRcnn_frame, "No car plate detected...")
+            image_label_faster_rcnn.config(image=empty_photo)
+            detection_text_faster_rcnn.config(text= "No car plate detected...", foreground="red" )
             return
         img = Image.open(detectionResult[1])
         img = img.resize((460, 460), Image.LANCZOS)  # Resize the image if needed
@@ -104,17 +92,48 @@ def fasterRcnnPhotoDetection():
         print("No file is chosen !! Please choose a file.")
 
 def yoloRealTimeDetection():
-    yoloRealTimeModelDetect()
+    yoloResult = yoloRealTimeModelDetect()
+
+    with open("resources/registered_car_plate.txt", 'r') as file:
+        # Read all lines from the file
+        lines = file.readlines()
+        # Strip newline characters from each line and compare with the string value
+        for line in lines:
+            if line.strip() == yoloResult:
+                detectionLive_text_yolo.config(text=f"Plate Number: {yoloResult[0]} : Entered at {datetime.now()}")
+        # If the string value is not found in any line, print a message
+        detectionLive_text_yolo.config(text=f"Plate Number: {yoloResult[0]} : Not registered...")
 
 def ssdRealTimeDetection():
-    ssdRealTimeModelDetect()
+    ssdResult = ssdRealTimeModelDetect()
+
+    with open("resources/registered_car_plate.txt", 'r') as file:
+        # Read all lines from the file
+        lines = file.readlines()
+        # Strip newline characters from each line and compare with the string value
+        for line in lines:
+            if line.strip() == ssdResult:
+                detectionLive_text_ssd.config(text=f"Plate Number: {ssdResult[0]} : Entered at {datetime.now()}")
+        # If the string value is not found in any line, print a message
+        detectionLive_text_ssd.config(text=f"Plate Number: {ssdResult} : Not registered...")
 
 def fasterRcnnRealTimeDetection():
-    fasterRcnnRealTimeDetect()
+    fasterRcnnResult = fasterRcnnRealTimeDetect()
+
+    with open("resources/registered_car_plate.txt", 'r') as file:
+        # Read all lines from the file
+        lines = file.readlines()
+        # Strip newline characters from each line and compare with the string value
+        for line in lines:
+            if line.strip() == fasterRcnnResult:
+                detectionLive_text_faster_rcnn.config(text=f"Plate Number: {fasterRcnnResult[0]} : Entered at {datetime.now()}")
+        # If the string value is not found in any line, print a message
+        detectionLive_text_faster_rcnn.config(text=f"Plate Number: {fasterRcnnResult} : Not registered...")
+
 
 
 def on_button_click():
-    user_input = entry.get().upper()
+    user_input = registerEntry.get().upper()
     print("User Input:", user_input)
 
     # Append user input to a text file
@@ -123,7 +142,7 @@ def on_button_click():
         print("User input appended to file.")
 
     # Clear the text in the entry widget
-    entry.delete(0, 'end')
+    registerEntry.delete(0, 'end')
 
 if __name__ == "__main__":
     # defining tkinter object
@@ -176,11 +195,11 @@ if __name__ == "__main__":
                              font=("Helvetica", 16), width=25,
                              height=2)  # Adjust width, height, and font size as needed
 
-    ssd_button2 = tk.Button(ssdLive_frame, text="Live Detect (SSD)", command=lambda: ssdRealTimeDetect(ssdLive_frame),
+    ssd_button2 = tk.Button(ssdLive_frame, text="Live Detect (SSD)", command=ssdRealTimeDetection,
                             font=("Helvetica", 16), width=25, height=2)
 
     fasterRcnn_button2 = tk.Button(fasterRcnnLive_frame, text="Live Detect (FasterRCNN)",
-                                   command=lambda: fasterRcnnRealTimeDetect(fasterRcnnLive_frame),
+                                   command=fasterRcnnRealTimeDetection,
                                    font=("Helvetica", 16), width=25, height=2)
 
 
@@ -204,21 +223,34 @@ if __name__ == "__main__":
     detection_text_faster_rcnn = tk.Label(fasterRcnn_frame, font=("Helvetica", 16))
     detection_text_faster_rcnn.place(relx=0.5, rely=0.88, anchor=tk.CENTER)
 
-    # Create a label for the text input
-    label = tk.Label(register_frame, text="Register Car Plate Number Here", font=("Helvetica", 30))
-    label.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    # Create a label to display the detection text for each frame
+    detectionLive_text_yolo = tk.Label(yoloLive_frame, font=("Helvetica", 16))
+    detectionLive_text_yolo.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    detectionLive_text_ssd = tk.Label(ssdLive_frame, font=("Helvetica", 16))
+    detectionLive_text_ssd.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    detectionLive_text_faster_rcnn = tk.Label(fasterRcnnLive_frame, font=("Helvetica", 16))
+    detectionLive_text_faster_rcnn.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
     # Create a label for the text input
-    label = tk.Label(register_frame, text="Enter your text:", font=("Helvetica", 16))
-    label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+    registerLabel1 = tk.Label(register_frame, text="Register Car Plate Number Here", font=("Helvetica", 30))
+    registerLabel1.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+
+    # Create a label for the text input
+    registerLabel2 = tk.Label(register_frame, text="Enter your car plate number:", font=("Helvetica", 16))
+    registerLabel2.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
     # Create a text input field
-    entry = tk.Entry(register_frame,  font=("Helvetica", 16))
-    entry.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    registerEntry = tk.Entry(register_frame,  font=("Helvetica", 16))
+    registerEntry.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
 
     # Create a button
-    button = tk.Button(register_frame, text="Submit", command=on_button_click,  font=("Helvetica", 16))
-    button.place(relx=0.5, rely=0.30, anchor=tk.CENTER)
+    registerButton = tk.Button(register_frame, text="Submit", command=on_button_click,  font=("Helvetica", 16))
+    registerButton.place(relx=0.5, rely=0.30, anchor=tk.CENTER)
+
+    # Create an empty photo object
+    empty_photo = ImageTk.PhotoImage(Image.new('RGB', (1, 1)))
 
     # Pack the buttons with customized positions
     yolo_button1.pack(pady=30)

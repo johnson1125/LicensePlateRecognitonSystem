@@ -22,6 +22,10 @@ def fasterRcnnRealTimeDetect():
     cap = cv2.VideoCapture(0)
     cap.set(3, 640)
     cap.set(4, 480)
+    vehicles = [2, 3, 5, 7]
+    threshold = 0.8
+    # Declare CarPlate dictionary
+    carPlate_dict = {}
 
     while True:
         ret, img = cap.read()
@@ -35,8 +39,6 @@ def fasterRcnnRealTimeDetect():
         scores = outputs["instances"].scores.tolist()
         bboxes = outputs["instances"].pred_boxes
 
-        license_plate = None
-
         for j, bbox in enumerate(bboxes):
             bbox = bbox.tolist()
             score = scores[j]
@@ -49,15 +51,10 @@ def fasterRcnnRealTimeDetect():
 
                 visualize(img, score, license_plate, x1, y1, x2, y2)
 
-        cv2.imshow('RealTime license Plate System', img)
-
-        if license_plate is not None:
-            return license_plate
+        cv2.imshow('Webcam', img)
 
         if cv2.waitKey(1) == ord('q'):
             break
 
     cap.release()
     cv2.destroyAllWindows()
-
-

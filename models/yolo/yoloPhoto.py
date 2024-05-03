@@ -19,11 +19,11 @@ def yoloDetectPhoto(path):
         x1, y1, x2, y2, license_plateScore, license_plateClass_id = license_plate
 
 
-    imgcpy = img.copy()
-    license_plate = readLicensePlate(imgcpy, x1, y1, x2, y2)
+        imgcpy = img.copy()
+        license_plate = readLicensePlate(imgcpy, x1, y1, x2, y2)
 
-    visualize(img,license_plateScore,license_plate,x1,y1,x2,y2)
+        visualize(img,license_plateScore,license_plate,x1,y1,x2,y2)
 
-    cv2.imwrite('resources/image/output/yolo/detection.jpg', img)
-    return [license_plate, "resources/image/output/yolo/detection.jpg"]
+        cv2.imwrite('resources/image/output/yolo/detection.jpg', img)
+        return [license_plate, "resources/image/output/yolo/detection.jpg"]
 

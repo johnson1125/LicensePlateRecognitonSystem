@@ -65,6 +65,8 @@ def ssdRealTimeModelDetect():
         boxes = interpreter.get_tensor(output_details[1]['index'])[0]  # Bounding box coordinates of detected objects
         scores = interpreter.get_tensor(output_details[0]['index'])[0]  # Confidence of detected objects
 
+        license_plate_result = None
+
         # ssdMobilenetV2 result
         for i in range(len(scores)):
             if ((scores[i] > min_conf) and (scores[i] <= 1.0)):
@@ -107,11 +109,11 @@ def ssdRealTimeModelDetect():
                     # annotate the result to the frame
                     visualize(frame, score, license_plate_result[0], xmin,ymin,xmax,ymax)
 
-
-
-
-
         cv2.imshow('RealTime license Plate System', frame)
+
+        if license_plate_result is not None:
+            return license_plate_result[0]
+
         if (cv2.waitKey(1) & 0xFF == ord('q')):
             break
 
