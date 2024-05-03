@@ -65,6 +65,16 @@ def yoloRealTimeModelDetect():
                 # annotate the result to the frame
                 visualize(frame, score, license_plate_result[0], x1, y1, x2, y2)
 
+            with open("resources/registered_car_plate.txt", 'r') as file:
+                # Read all lines from the file
+                lines = file.readlines()
+                # Strip newline characters from each line and compare with the string value
+                for line in lines:
+                    if line.strip() == license_plate_result[0]:
+                        cap.release()
+                        cv2.destroyAllWindows()
+                        return license_plate_result[0]
+
         cv2.imshow('RealTime license Plate System', frame)
         if cv2.waitKey(1) == ord('q'):
             break

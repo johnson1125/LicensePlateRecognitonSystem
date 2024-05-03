@@ -25,5 +25,5 @@ def yoloDetectPhoto(path):
         visualize(img,license_plateScore,license_plate,x1,y1,x2,y2)
 
         cv2.imwrite('resources/image/output/yolo/detection.jpg', img)
-        return [license_plate, "resources/image/output/yolo/detection.jpg"]
+        return [license_plate[0], "resources/image/output/yolo/detection.jpg"]
 

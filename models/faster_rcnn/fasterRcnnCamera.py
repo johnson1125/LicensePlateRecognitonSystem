@@ -35,8 +35,6 @@ def fasterRcnnRealTimeDetect():
         scores = outputs["instances"].scores.tolist()
         bboxes = outputs["instances"].pred_boxes
 
-        license_plate = None
-
         for j, bbox in enumerate(bboxes):
             bbox = bbox.tolist()
             score = scores[j]
@@ -49,13 +47,21 @@ def fasterRcnnRealTimeDetect():
 
                 visualize(img, score, license_plate, x1, y1, x2, y2)
 
-        cv2.imshow('RealTime license Plate System', img)
+                with open("resources/registered_car_plate.txt", 'r') as file:
+                    # Read all lines from the file
+                    lines = file.readlines()
+                    # Strip newline characters from each line and compare with the string value
+                    for line in lines:
+                        if line.strip() == license_plate[0]:
+                            cap.release()
+                            cv2.destroyAllWindows()
+                            return license_plate[0]
 
-        if license_plate is not None:
-            return license_plate
+        cv2.imshow('RealTime license Plate System', img)
 
         if cv2.waitKey(1) == ord('q'):
             break
+
 
     cap.release()
     cv2.destroyAllWindows()

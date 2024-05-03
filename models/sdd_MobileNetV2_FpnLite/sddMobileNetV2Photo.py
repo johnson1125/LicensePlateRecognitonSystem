@@ -50,4 +50,4 @@ def ssdDetectPhoto(path):
             visualize(img, license_plateScore, license_plate, xmin, ymin, xmax, ymax)
 
             cv2.imwrite('resources/image/output/sdd_MobileNetV2_FpnLite/detection.jpg', img)
-            return [license_plate, "resources/image/output/sdd_MobileNetV2_FpnLite/detection.jpg"]
+            return [license_plate[0], "resources/image/output/sdd_MobileNetV2_FpnLite/detection.jpg"]

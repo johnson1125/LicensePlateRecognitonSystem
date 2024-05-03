@@ -45,7 +45,7 @@ def fasterRcnnDetectPhoto(path):
             visualize(image, score, license_plate, x1, y1, x2, y2)
 
             cv2.imwrite('resources/image/output/fasterRcnn/detection.jpg', image)
-            return [license_plate, "resources/image/output/fasterRcnn/detection.jpg"]
+            return [license_plate[0], "resources/image/output/fasterRcnn/detection.jpg"]
 
 
 

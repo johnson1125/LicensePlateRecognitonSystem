@@ -109,10 +109,17 @@ def ssdRealTimeModelDetect():
                     # annotate the result to the frame
                     visualize(frame, score, license_plate_result[0], xmin,ymin,xmax,ymax)
 
-        cv2.imshow('RealTime license Plate System', frame)
+                with open("resources/registered_car_plate.txt", 'r') as file:
+                    # Read all lines from the file
+                    lines = file.readlines()
+                    # Strip newline characters from each line and compare with the string value
+                    for line in lines:
+                        if line.strip() == license_plate_result[0]:
+                            cap.release()
+                            cv2.destroyAllWindows()
+                            return license_plate_result[0]
 
-        if license_plate_result is not None:
-            return license_plate_result[0]
+        cv2.imshow('RealTime license Plate System', frame)
 
         if (cv2.waitKey(1) & 0xFF == ord('q')):
             break
