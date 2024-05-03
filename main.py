@@ -37,6 +37,7 @@ def yoloPhotoDetection():
     else:
         print("No file is chosen !! Please choose a file.")
 
+
 def ssdPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
     path = tk.filedialog.askopenfilename(filetypes=fileTypes)
@@ -63,6 +64,7 @@ def ssdPhotoDetection():
     # if no file is selected, then we are displaying below message
     else:
         print("No file is chosen !! Please choose a file.")
+
 
 def fasterRcnnPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
@@ -91,29 +93,18 @@ def fasterRcnnPhotoDetection():
     else:
         print("No file is chosen !! Please choose a file.")
 
-def yoloRealTimeDetection():
-    yoloResult = yoloRealTimeModelDetect()
 
-    if(yoloResult is not None):
-        detectionLive_text_yolo.config(text=f"Plate Number: {yoloResult} : Entered at {datetime.now()}")
-        # Append user input to a text file
-        with open("resources/entered_record.txt", "a") as file:
-            file.write(f"Plate Number: {yoloResult} : Entered at {datetime.now()}" + "\n")
+def yoloRealTimeDetection():
+    yoloRealTimeModelDetect()
+
 
 def ssdRealTimeDetection():
-    ssdResult = ssdRealTimeModelDetect()
+    ssdRealTimeModelDetect()
 
-    if (ssdResult is not None):
-        detectionLive_text_ssd.config(text=f"Plate Number: {ssdResult} : Entered at {datetime.now()}")
-        with open("resources/entered_record.txt", "a") as file:
-            file.write(f"Plate Number: {ssdResult} : Entered at {datetime.now()}" + "\n")
+
 def fasterRcnnRealTimeDetection():
-    fasterRcnnResult = fasterRcnnRealTimeDetect()
+    fasterRcnnRealTimeDetect()
 
-    if (fasterRcnnResult is not None):
-        detectionLive_text_faster_rcnn.config(text=f"Plate Number: {fasterRcnnResult} : Entered at {datetime.now()}")
-        with open("resources/entered_record.txt", "a") as file:
-            file.write(f"Plate Number: {fasterRcnnResult} : Entered at {datetime.now()}" + "\n")
 
 def on_button_click():
     user_input = registerEntry.get().upper()
@@ -127,6 +118,7 @@ def on_button_click():
     # Clear the text in the entry widget
     registerEntry.delete(0, 'end')
 
+
 def clear_displayed_content():
     # Clear image labels
     image_label_yolo.config(image=empty_photo)
@@ -138,11 +130,61 @@ def clear_displayed_content():
     detection_text_ssd.config(text="")
     detection_text_faster_rcnn.config(text="")
 
-    detectionLive_text_yolo.config(text="")
-    detectionLive_text_ssd.config(text="")
-    detectionLive_text_faster_rcnn.config(text="")
+
+def read_and_display_records(frame):
+    try:
+        # Open the text file
+        with open("resources/entered_record.txt", "r") as file:
+            # Read all lines from the file
+            lines = file.readlines()
+
+            # Reverse the list to get the latest records first
+            reversed_lines = reversed(lines)
+
+            # Take the first 10 lines if there are at least 10 lines, otherwise take all lines
+            latest_records = list(reversed_lines)[:10]
+
+            # Concatenate the records into a single string
+            records_text = "\n".join(latest_records)
+
+            if frame == "Yolo":
+                # Set the concatenated string as the text of the label
+                detectionLive_text_yolo.config(text=records_text)
+                detectionLive_text_yolo.after(1000, read_and_display_records, "Yolo")  # Schedule for Yolo frame
+            elif frame == "Ssd":
+                detectionLive_text_ssd.config(text=records_text)
+                detectionLive_text_ssd.after(1000, read_and_display_records, "Ssd")  # Schedule for Ssd frame
+            elif frame == "faster_rcnn":
+                detectionLive_text_faster_rcnn.config(text=records_text)
+                detectionLive_text_faster_rcnn.after(1000, read_and_display_records, "faster_rcnn")  # Schedule for faster_rcnn frame
+    except FileNotFoundError:
+        # If the file is not found, simply return without doing anything
+        pass
+
+
+def read_last_records():
+    try:
+        with open("resources/entered_record.txt", 'r') as file:
+            # Read all lines from the file
+            lines = file.readlines()
+
+            # Calculate the starting index to read the last records
+            start_index = max(0, len(lines) - 10)
+
+            # Extract the last records
+            last_records = lines[start_index:]
+
+            # Strip newline characters from each record and store in a list
+            last_records_list = [record.strip() for record in last_records]
+
+            return last_records_list
+    except FileNotFoundError:
+        print(f"File not found.")
+
 
 if __name__ == "__main__":
+    latest_entered_record = read_last_records()
+
     # defining tkinter object
     app = tk.Tk()
     app.title("Car Plate Number Recognition System")
@@ -248,13 +290,13 @@ if __name__ == "__main__":
 
     # Create a label to display the detection text for each frame
     detectionLive_text_yolo = tk.Label(yoloLive_frame, font=("Helvetica", 16))
-    detectionLive_text_yolo.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+    detectionLive_text_yolo.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
     detectionLive_text_ssd = tk.Label(ssdLive_frame, font=("Helvetica", 16))
-    detectionLive_text_ssd.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+    detectionLive_text_ssd.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
     detectionLive_text_faster_rcnn = tk.Label(fasterRcnnLive_frame, font=("Helvetica", 16))
-    detectionLive_text_faster_rcnn.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+    detectionLive_text_faster_rcnn.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
     # Create a label for the text input (register)
     registerLabel1 = tk.Label(register_frame, text="Register Car Plate Number Here", font=("Helvetica", 30))
@@ -277,6 +319,11 @@ if __name__ == "__main__":
 
     # Pack the notebook
     notebook.pack(fill="both", expand=True)
+
+    # Start the loop initially for each frame
+    read_and_display_records("Yolo")
+    read_and_display_records("Ssd")
+    read_and_display_records("faster_rcnn")
 
     app.mainloop()
 

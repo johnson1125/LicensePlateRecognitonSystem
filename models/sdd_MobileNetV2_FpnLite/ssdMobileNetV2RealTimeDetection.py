@@ -6,6 +6,7 @@ from utils.readLicensePlate import readLicensePlate
 from utils.utils import visualize
 from sort.sort import *
 from ultralytics import YOLO
+from datetime import datetime
 
 # setup
 coco_model = YOLO('models/yolov8n.pt')
@@ -31,12 +32,25 @@ def ssdRealTimeModelDetect():
     vehicles = [2, 3, 5, 7]
     #Declare CarPlate dictionary
     carPlate_dict = {}
+    detected_license_plates = []
+
+    start_time = time.time()
+
     while (True):
         ret, frame = cap.read()
 
         #Yolo COCO pretrained model detection
         detections = coco_model(frame)[0]
         detections_ = []
+
+        # Calculate FPS
+        end_time = cv2.getTickCount()
+        fps = cv2.getTickFrequency() / (end_time - start_time)
+        start_time = end_time
+
+        # Add text overlay for FPS
+        fps_text = f"FPS: {int(fps)}"
+        cv2.putText(frame, fps_text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         #Yolo COCO pretrained model result
         for detection in detections.boxes.data.tolist():
@@ -84,6 +98,8 @@ def ssdRealTimeModelDetect():
                 xcar1, ycar1, xcar2, ycar2, car_id = get_car(license_plate, track_ids)
                 frameCopy = frame.copy()
 
+                licensePlate = "None"
+
                 # run license plate recognition
                 license_plate_result = readLicensePlate(frameCopy, xmin,ymin,xmax,ymax)
 
@@ -92,6 +108,8 @@ def ssdRealTimeModelDetect():
                     # retrieve car plate of current car from the car plate dictionary
                     dict_license_plate_data = carPlate_dict[car_id][0]
                     dict_license_plate, dict_license_plate_score = dict_license_plate_data
+
+                    licensePlate = dict_license_plate
 
                     # compare the precision of latest license plate recognition with the car plate recorded in the car plate dictionary
                     if dict_license_plate_score < license_plate_result[1]:
@@ -114,10 +132,19 @@ def ssdRealTimeModelDetect():
                     lines = file.readlines()
                     # Strip newline characters from each line and compare with the string value
                     for line in lines:
-                        if line.strip() == license_plate_result[0]:
-                            cap.release()
-                            cv2.destroyAllWindows()
-                            return license_plate_result[0]
+                        if line.strip() == licensePlate:
+                            authorizaiton_text = f"Authorized..."
+                            cv2.putText(frame, authorizaiton_text, (0, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0),
+                                        2)
+                            with open("resources/entered_record.txt", "a") as file1:
+                                if len(detected_license_plates) == 0:
+                                    detected_license_plates.append(licensePlate)
+                                    file1.write(f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
+                                else:
+                                    if detected_license_plates[-1] != licensePlate:
+                                        detected_license_plates.append(licensePlate)
+                                        file1.write(
+                                            f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
 
         cv2.imshow('RealTime license Plate System', frame)
 
