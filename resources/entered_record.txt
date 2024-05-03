@@ -17,3 +17,6 @@ Plate Number: UTM9999 : Entered at 2024-05-03 20:58:51.015188
 Plate Number: HWE3071 : Entered at 2024-05-03 21:05:48.850200
 Plate Number: UTM9999 : Entered at 2024-05-03 21:06:09.646992
 Plate Number: DEB70 : Entered at 2024-05-03 21:09:02.090472
+Plate Number: PMJ5716 : Entered at 2024-05-03 21:21:23.148174
+Plate Number: PMJ5716 : Entered at 2024-05-03 21:22:48.183124
+Plate Number: PMJ5716 : Entered at 2024-05-03 21:26:47.670209
