@@ -176,7 +176,7 @@ if __name__ == "__main__":
                              font=("Helvetica", 16), width=25,
                              height=2)  # Adjust width, height, and font size as needed
 
-    ssd_button2 = tk.Button(ssdLive_frame, text="Live Detect (SSD)", command=lambda: ssdRealTimeDetect(ssdLive_frame),
+    ssd_button2 = tk.Button(ssdLive_frame, text="Live Detect (SSD)", command=ssdRealTimeDetection,
                             font=("Helvetica", 16), width=25, height=2)
 
     fasterRcnn_button2 = tk.Button(fasterRcnnLive_frame, text="Live Detect (FasterRCNN)",

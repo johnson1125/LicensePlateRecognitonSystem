@@ -28,9 +28,8 @@ def readLicensePlate (img,x1,y1,x2,y2) :
     else:
         newy2 = img.shape[0]
 
-
+    # crop out the license plate
     license_plate_crop = img[newy1:newy2, newx1: newx2]
-
     # process license plate
     license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
     license_plate_inverted = cv2.bitwise_not(license_plate_crop_gray)
