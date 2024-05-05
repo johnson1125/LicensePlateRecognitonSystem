@@ -1,35 +1,11 @@
-<<<<<<< HEAD
-Plate Number: GT1 : Entered at 2024-05-03 18:52:48.221004
-Plate Number: DEB70 : Entered at 2024-05-03 18:53:20.970853
-Plate Number: UTM9999 : Entered at 2024-05-03 19:34:17.490377
-Plate Number: GT1 : Entered at 2024-05-03 19:48:57.835244
-Plate Number: UTM9999 : Entered at 2024-05-03 20:04:29.944028
-Plate Number: DEB70 : Entered at 2024-05-03 20:05:29.777450
-Plate Number: DEB70 : Entered at 2024-05-03 20:11:24.535331
-Plate Number: UTM9999 : Entered at 2024-05-03 20:11:50.336405
-Plate Number: GT1 : Entered at 2024-05-03 20:16:56.640844
-Plate Number: UTM9999 : Entered at 2024-05-03 20:17:20.295299
-Plate Number: DEB70 : Entered at 2024-05-03 20:17:46.727841
-Plate Number: HWE3071 : Entered at 2024-05-03 20:20:27.914783
-Plate Number: XX88 : Entered at 2024-05-03 20:20:50.325551
-Plate Number: UTM9999 : Entered at 2024-05-03 20:48:14.162213
-Plate Number: HWE3071 : Entered at 2024-05-03 20:48:40.131035
-Plate Number: UTM9999 : Entered at 2024-05-03 20:58:51.015188
-Plate Number: HWE3071 : Entered at 2024-05-03 21:05:48.850200
-Plate Number: UTM9999 : Entered at 2024-05-03 21:06:09.646992
-Plate Number: DEB70 : Entered at 2024-05-03 21:09:02.090472
-Plate Number: PMJ5716 : Entered at 2024-05-03 21:21:23.148174
-Plate Number: PMJ5716 : Entered at 2024-05-03 21:22:48.183124
-Plate Number: PMJ5716 : Entered at 2024-05-03 21:26:47.670209
-=======
-Plate Number: UTM9999 : Entered at 2024-05-03 21:56:59.398967
-Plate Number: DEB70 : Entered at 2024-05-03 22:00:20.651415
-Plate Number: HWE3071 : Entered at 2024-05-03 22:00:50.616268
-Plate Number: DEB70 : Entered at 2024-05-03 22:00:51.254067
-Plate Number: UTM9999 : Entered at 2024-05-03 22:07:13.112230
-Plate Number: DEB70 : Entered at 2024-05-03 22:07:44.602403
-Plate Number: UTM9999 : Entered at 2024-05-03 22:09:31.315538
-Plate Number: DEB70 : Entered at 2024-05-03 22:29:31.966998
-Plate Number: UTM9999 : Entered at 2024-05-03 22:29:59.956442
-Plate Number: GT1 : Entered at 2024-05-03 22:30:47.208220
->>>>>>> 4e45e539a17e0a156d5e180bdfa2e3d3185f1caa
+Plate Number: WC5763R : Entered at 2024-05-06 00:51:10.013798
+Plate Number: WA688M : Entered at 2024-05-06 00:52:46.393969
+Plate Number: WC5763R : Entered at 2024-05-06 00:53:47.288535
+Plate Number: UTM9999 : Entered at 2024-05-06 00:54:21.812232
+Plate Number: E63 : Entered at 2024-05-06 00:54:27.783631
+Plate Number: E63 : Entered at 2024-05-06 00:55:35.783256
+Plate Number: UTM9999 : Entered at 2024-05-06 01:00:42.669240
+Plate Number: WC5763R : Entered at 2024-05-06 01:01:44.704004
+Plate Number: WA688M : Entered at 2024-05-06 01:03:16.721916
+Plate Number: WA688M : Entered at 2024-05-06 01:04:29.339866
+Plate Number: VBR2625 : Entered at 2024-05-06 01:06:30.932560

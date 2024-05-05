@@ -53,7 +53,7 @@ def readLicensePlate (img,x1,y1,x2,y2) :
 
         while(len(textArray)!=0):
            for texts in textArray:
-               if texts[0].isalpha():
+               if len(texts) > 0 and texts[0].isalpha():
                    for text in texts:
                        license_plate_text+=text
                    textArray.remove(texts)
