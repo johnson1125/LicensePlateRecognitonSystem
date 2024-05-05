@@ -9,7 +9,7 @@ from models.sdd_MobileNetV2_FpnLite.sddMobileNetV2Photo import ssdDetectPhoto
 from models.sdd_MobileNetV2_FpnLite.ssdMobileNetV2RealTimeDetection import ssdRealTimeModelDetect
 from models.faster_rcnn.fasterRcnnPhoto import fasterRcnnDetectPhoto
 from models.faster_rcnn.fasterRcnnCamera import fasterRcnnRealTimeDetect
-from datetime import datetime
+import os
 
 def yoloPhotoDetection():
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
@@ -182,6 +182,23 @@ def read_last_records():
         print(f"File not found.")
 
 
+def display_file_content():
+    with open("resources/registered_car_plate.txt", 'r') as file:
+        content = file.read()
+        lines = content.splitlines()
+        display_text = ', '.join(lines)
+
+    # Create a new window
+    new_window = tk.Toplevel()
+    new_window.title("Registered car plate number")
+
+    # Add a Text widget to the new window
+    text_widget = tk.Text(new_window, font=("Helvetica", 16))
+    text_widget.pack(expand=True, fill=tk.BOTH)
+
+    # Display the text in the Text widget
+    text_widget.insert(tk.END, display_text)
+
 if __name__ == "__main__":
     latest_entered_record = read_last_records()
 
@@ -313,6 +330,10 @@ if __name__ == "__main__":
     # Create a button (register)
     registerButton = tk.Button(register_frame, text="Submit", command=on_button_click,  font=("Helvetica", 16))
     registerButton.place(relx=0.5, rely=0.30, anchor=tk.CENTER)
+
+    # Create a button (register)
+    registerButton = tk.Button(register_frame, text="Show all registered car plate", command=display_file_content, font=("Helvetica", 16))
+    registerButton.place(relx=0.5, rely=0.40, anchor=tk.CENTER)
 
     # Create an empty photo object
     empty_photo = ImageTk.PhotoImage(Image.new('RGB', (1, 1)))
