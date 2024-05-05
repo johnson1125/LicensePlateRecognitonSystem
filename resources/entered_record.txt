@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Plate Number: GT1 : Entered at 2024-05-03 18:52:48.221004
 Plate Number: DEB70 : Entered at 2024-05-03 18:53:20.970853
 Plate Number: UTM9999 : Entered at 2024-05-03 19:34:17.490377
@@ -20,3 +21,15 @@ Plate Number: DEB70 : Entered at 2024-05-03 21:09:02.090472
 Plate Number: PMJ5716 : Entered at 2024-05-03 21:21:23.148174
 Plate Number: PMJ5716 : Entered at 2024-05-03 21:22:48.183124
 Plate Number: PMJ5716 : Entered at 2024-05-03 21:26:47.670209
+=======
+Plate Number: UTM9999 : Entered at 2024-05-03 21:56:59.398967
+Plate Number: DEB70 : Entered at 2024-05-03 22:00:20.651415
+Plate Number: HWE3071 : Entered at 2024-05-03 22:00:50.616268
+Plate Number: DEB70 : Entered at 2024-05-03 22:00:51.254067
+Plate Number: UTM9999 : Entered at 2024-05-03 22:07:13.112230
+Plate Number: DEB70 : Entered at 2024-05-03 22:07:44.602403
+Plate Number: UTM9999 : Entered at 2024-05-03 22:09:31.315538
+Plate Number: DEB70 : Entered at 2024-05-03 22:29:31.966998
+Plate Number: UTM9999 : Entered at 2024-05-03 22:29:59.956442
+Plate Number: GT1 : Entered at 2024-05-03 22:30:47.208220
+>>>>>>> 4e45e539a17e0a156d5e180bdfa2e3d3185f1caa

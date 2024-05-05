@@ -34,7 +34,11 @@ def ssdRealTimeModelDetect():
     carPlate_dict = {}
     detected_license_plates = []
 
-    start_time = time.time()
+    # used to record the time when we processed last frame
+    prev_frame_time = 0
+
+    # used to record the time at which we processed current frame
+    new_frame_time = 0
 
     while (True):
         ret, frame = cap.read()
@@ -43,14 +47,26 @@ def ssdRealTimeModelDetect():
         detections = coco_model(frame)[0]
         detections_ = []
 
-        # Calculate FPS
-        end_time = cv2.getTickCount()
-        fps = cv2.getTickFrequency() / (end_time - start_time)
-        start_time = end_time
+        # time when we finish processing for this frame
+        new_frame_time = time.time()
 
-        # Add text overlay for FPS
-        fps_text = f"FPS: {int(fps)}"
-        cv2.putText(frame, fps_text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        # Calculating the fps
+
+        # fps will be number of frame processed in given time frame
+        # since their will be most of time error of 0.001 second
+        # we will be subtracting it to get more accurate result
+        fps = 1 / (new_frame_time - prev_frame_time)
+        prev_frame_time = new_frame_time
+
+        # converting the fps into integer
+        fps = int(fps)
+
+        # converting the fps to string so that we can display it on frame
+        # by using putText function
+        fps = str(fps)
+
+        # putting the FPS count on the frame
+        cv2.putText(frame, fps, (7, 70), cv2.FONT_HERSHEY_SIMPLEX, 3, (100, 255, 0), 3, cv2.LINE_AA)
 
         #Yolo COCO pretrained model result
         for detection in detections.boxes.data.tolist():
@@ -136,15 +152,25 @@ def ssdRealTimeModelDetect():
                             authorizaiton_text = f"Authorized..."
                             cv2.putText(frame, authorizaiton_text, (0, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0),
                                         2)
-                            with open("resources/entered_record.txt", "a") as file1:
-                                if len(detected_license_plates) == 0:
-                                    detected_license_plates.append(licensePlate)
-                                    file1.write(f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
-                                else:
-                                    if detected_license_plates[-1] != licensePlate:
-                                        detected_license_plates.append(licensePlate)
-                                        file1.write(
-                                            f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
+                            with open("resources/registered_car_plate.txt", 'r') as file:
+                                # Read all lines from the file
+                                lines = file.readlines()
+                                # Strip newline characters from each line and compare with the string value
+                                for line in lines:
+                                    if line.strip() == licensePlate:
+                                        authorizaiton_text = f"Authorized..."
+                                        cv2.putText(frame, authorizaiton_text, (0, 400), cv2.FONT_HERSHEY_SIMPLEX, 1,
+                                                    (0, 255, 0), 2)
+                                        with open("resources/entered_record.txt", "a") as file1:
+                                            if len(detected_license_plates) == 0:
+                                                detected_license_plates.append(licensePlate)
+                                                file1.write(
+                                                    f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
+                                            else:
+                                                if detected_license_plates[-1] != licensePlate:
+                                                    detected_license_plates.append(licensePlate)
+                                                    file1.write(
+                                                        f"Plate Number: {licensePlate} : Entered at {datetime.now()}" + "\n")
 
         cv2.imshow('RealTime license Plate System', frame)
 
