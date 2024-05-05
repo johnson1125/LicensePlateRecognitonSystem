@@ -122,8 +122,17 @@ def ssdRealTimeModelDetect():
                         visualize(frame, score, dict_license_plate, xmin,ymin,xmax,ymax)
 
                 else:
-                    # save license plate recognition to car plate dictionary
-                    carPlate_dict[car_id] = [(license_plate_result[0], license_plate_result[1])]
+                    if (car_id != -1):
+                        # save license plate recognition to car plate dictionary
+                        if len(carPlate_dict) >= 10:
+                            items = list(carPlate_dict.items())
+
+                            # Remove the first item from the list
+                            if items:
+                                del items[0]
+                            # Update the dictionary with the modified list
+                            carPlate_dict = dict(items)
+                        carPlate_dict[car_id] = [(license_plate_result[0], license_plate_result[1])]
                     # annotate the result to the frame
                     visualize(frame, score, license_plate_result[0], xmin,ymin,xmax,ymax)
 

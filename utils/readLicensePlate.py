@@ -67,7 +67,11 @@ def readLicensePlate (img,x1,y1,x2,y2) :
                 license_plate_text =""
                 confScore = 0.0
                 return [license_plate_text, confScore]
-                break
+
+        if license_plate_text[0].isdigit():
+            license_plate_text = ""
+            confScore = 0.0
+            return [license_plate_text, confScore]
 
         confScore = totalScore/numOfDetection
 
